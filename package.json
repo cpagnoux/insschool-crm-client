@@ -18,7 +18,9 @@
     "typescript": "3.5.3"
   },
   "devDependencies": {
-    "eslint-config-airbnb": "^18.0.1"
+    "eslint-config-airbnb": "^18.0.1",
+    "husky": "^3.0.4",
+    "lint-staged": "^9.2.3"
   },
   "scripts": {
     "start": "react-scripts start",
@@ -41,6 +43,16 @@
       "last 1 chrome version",
       "last 1 firefox version",
       "last 1 safari version"
+    ]
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.ts?(x)": [
+      "eslint"
     ]
   }
 }
