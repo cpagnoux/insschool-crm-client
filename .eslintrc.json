@@ -1,0 +1,45 @@
+{
+  "extends": [
+    "react-app",
+    "airbnb"
+  ],
+  "rules": {
+    "import/prefer-default-export": "off",
+    "jsx-a11y/anchor-is-valid": "off",
+    "react/jsx-filename-extension": ["error", {
+      "extensions": [
+        ".jsx",
+        ".tsx"
+      ]
+    }],
+    "react/jsx-props-no-spreading": "off",
+    "react/prop-types": "off",
+    "sort-imports": ["error", {
+      "ignoreDeclarationSort": true
+    }]
+  },
+  "settings": {
+    "import/resolver": {
+      "node": {
+        "extensions": [
+          ".js",
+          ".jsx",
+          ".json",
+          ".ts",
+          ".tsx"
+        ]
+      }
+    }
+  },
+  "overrides": [
+    {
+      "files": ["**/*.ts?(x)"],
+      "extends": "plugin:@typescript-eslint/recommended",
+      "rules": {
+        "@typescript-eslint/explicit-function-return-type": "off",
+        "@typescript-eslint/indent": ["error", 2],
+        "@typescript-eslint/no-object-literal-type-assertion": "off"
+      }
+    }
+  ]
+}
