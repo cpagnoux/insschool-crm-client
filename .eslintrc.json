@@ -6,6 +6,13 @@
   "rules": {
     "import/prefer-default-export": "off",
     "jsx-a11y/anchor-is-valid": "off",
+    "max-len": ["error", 80, 2, {
+      "ignoreUrls": true,
+      "ignoreComments": false,
+      "ignoreRegExpLiterals": true,
+      "ignoreStrings": true,
+      "ignoreTemplateLiterals": true
+    }],
     "react/jsx-filename-extension": ["error", {
       "extensions": [
         ".jsx",
@@ -38,7 +45,7 @@
       "rules": {
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/indent": ["error", 2],
-        "@typescript-eslint/no-object-literal-type-assertion": "off"
+        "@typescript-eslint/no-non-null-assertion": "off"
       }
     }
   ]
