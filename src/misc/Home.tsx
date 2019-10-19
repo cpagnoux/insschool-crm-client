@@ -1,5 +1,7 @@
 import React from 'react';
 
-const Home: React.FC = () => <h1>Home</h1>;
+import { Layout } from '../common';
+
+const Home: React.FC = () => <Layout title="Accueil" />;
 
 export default Home;
