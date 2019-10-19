@@ -11,7 +11,7 @@ const useAuthenticationStatus = () => {
   useEffect(() => {
     const verifyToken = async (accessToken: string) => {
       try {
-        const res = await AuthAPI.me(accessToken);
+        const res = await AuthAPI.fetchUser(accessToken);
         setIsAuthenticated(res.status === 200);
       } catch (e) {
         setIsAuthenticated(false);
