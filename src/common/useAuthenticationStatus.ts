@@ -5,7 +5,6 @@ import { AuthAPI } from '.';
 
 const useAuthenticationStatus = () => {
   const [token] = useTokenContext();
-
   const [isAuthenticated, setIsAuthenticated] = useState();
 
   // Check existence and validity of access token.

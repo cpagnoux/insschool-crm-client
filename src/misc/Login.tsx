@@ -1,4 +1,4 @@
-import React, { FormEvent, useState } from 'react';
+import React, { ChangeEvent, FormEvent, useState } from 'react';
 import { Redirect } from 'react-router-dom';
 import {
   Avatar,
@@ -19,7 +19,7 @@ import { AuthAPI, Loader, useAuthenticationStatus } from '../common';
 import { useTokenContext } from '../store';
 
 const MadeWithLove: React.FC = () => (
-  <Typography variant="body2" color="textSecondary" align="center">
+  <Typography align="center" color="textSecondary" variant="body2">
     {'Built with love by the '}
     <Link color="inherit" href="https://material-ui.com/">
         Material-UI
@@ -55,13 +55,18 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
 
 const Login: React.FC = () => {
   const classes = useStyles();
-
   const [, setToken] = useTokenContext();
-
   const isAuthenticated = useAuthenticationStatus();
-
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+
+  const handleEmailChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setEmail(event.target.value);
+  };
+
+  const handlePasswordChange = (event: ChangeEvent<HTMLInputElement>) => {
+    setPassword(event.target.value);
+  };
 
   const handleSubmit = async (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
@@ -109,7 +114,7 @@ const Login: React.FC = () => {
             required
             value={email}
             variant="outlined"
-            onChange={(e) => setEmail(e.target.value)}
+            onChange={handleEmailChange}
           />
           <TextField
             autoComplete="current-password"
@@ -122,10 +127,10 @@ const Login: React.FC = () => {
             type="password"
             value={password}
             variant="outlined"
-            onChange={(e) => setPassword(e.target.value)}
+            onChange={handlePasswordChange}
           />
           <FormControlLabel
-            control={<Checkbox value="remember" color="primary" />}
+            control={<Checkbox color="primary" value="remember" />}
             label="Remember me"
           />
           <Button
