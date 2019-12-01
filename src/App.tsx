@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 
-import { PrivateRoute } from './common';
+import { Login, PrivateRoute } from './auth';
 import { LessonIndex } from './lessons';
-import { Home, Login } from './misc';
+import { Home } from './misc';
 import { useTokenContext } from './store';
 
 const App: React.FC = () => {

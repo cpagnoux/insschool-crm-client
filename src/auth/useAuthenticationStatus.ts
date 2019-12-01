@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react';
 
 import { useTokenContext } from '../store';
-import { AuthAPI } from '.';
+import AuthAPI from './AuthAPI';
 
 const useAuthenticationStatus = () => {
   const [token] = useTokenContext();

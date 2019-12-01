@@ -15,8 +15,10 @@ import {
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import { LockOutlined as LockOutlinedIcon } from '@material-ui/icons';
 
-import { AuthAPI, Loader, useAuthenticationStatus } from '../common';
+import { Loader } from '../common';
 import { useTokenContext } from '../store';
+import AuthAPI from './AuthAPI';
+import useAuthenticationStatus from './useAuthenticationStatus';
 
 const MadeWithLove: React.FC = () => (
   <Typography align="center" color="textSecondary" variant="body2">

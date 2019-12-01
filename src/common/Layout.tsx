@@ -17,8 +17,8 @@ import {
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import { AccountCircle } from '@material-ui/icons';
 
+import { AuthAPI } from '../auth';
 import { useTokenContext } from '../store';
-import { AuthAPI } from '.';
 
 const menuEntries = [
   { label: 'Accueil', url: '/' },
