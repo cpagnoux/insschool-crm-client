@@ -5,6 +5,7 @@ import { Login, PrivateRoute } from './auth';
 import { LessonIndex } from './lessons';
 import { Home } from './misc';
 import { useTokenContext } from './store';
+import { TeacherIndex } from './teachers';
 
 const App: React.FC = () => {
   const [, setToken] = useTokenContext();
@@ -20,6 +21,7 @@ const App: React.FC = () => {
       <Switch>
         <PrivateRoute exact path="/" component={Home} />
         <PrivateRoute exact path="/lessons" component={LessonIndex} />
+        <PrivateRoute exact path="/teachers" component={TeacherIndex} />
         <Route path="/login" component={Login} />
       </Switch>
     </Router>
