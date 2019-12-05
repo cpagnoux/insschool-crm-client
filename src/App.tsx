@@ -4,6 +4,7 @@ import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 import { Login, PrivateRoute } from './auth';
 import { LessonIndex } from './lessons';
 import { Home } from './misc';
+import { OrderIndex } from './orders';
 import { ProductIndex } from './products';
 import { RoomIndex } from './rooms';
 import { useTokenContext } from './store';
@@ -24,6 +25,7 @@ const App: React.FC = () => {
         <PrivateRoute exact path="/" component={Home} />
         <PrivateRoute exact path="/goodies" component={ProductIndex} />
         <PrivateRoute exact path="/lessons" component={LessonIndex} />
+        <PrivateRoute exact path="/orders" component={OrderIndex} />
         <PrivateRoute exact path="/rooms" component={RoomIndex} />
         <PrivateRoute exact path="/teachers" component={TeacherIndex} />
         <Route path="/login" component={Login} />
