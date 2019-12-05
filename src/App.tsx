@@ -6,6 +6,7 @@ import { ContactIndex } from './contacts';
 import { LessonIndex } from './lessons';
 import { Home } from './misc';
 import { OrderIndex } from './orders';
+import { PreRegistrationIndex } from './preRegistrations';
 import { ProductIndex } from './products';
 import { RoomIndex } from './rooms';
 import { useTokenContext } from './store';
@@ -28,6 +29,11 @@ const App: React.FC = () => {
         <PrivateRoute exact path="/lessons" component={LessonIndex} />
         <PrivateRoute exact path="/members" component={ContactIndex} />
         <PrivateRoute exact path="/orders" component={OrderIndex} />
+        <PrivateRoute
+          exact
+          path="/pre-registrations"
+          component={PreRegistrationIndex}
+        />
         <PrivateRoute exact path="/rooms" component={RoomIndex} />
         <PrivateRoute exact path="/teachers" component={TeacherIndex} />
         <Route path="/login" component={Login} />
