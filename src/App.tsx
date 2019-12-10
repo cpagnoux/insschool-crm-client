@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 
 import { Login, PrivateRoute } from './auth';
+import { SeasonAPI } from './common';
 import { ContactIndex } from './contacts';
 import { LessonIndex } from './lessons';
 import { Home } from './misc';
@@ -9,17 +10,41 @@ import { OrderIndex } from './orders';
 import { PreRegistrationIndex } from './preRegistrations';
 import { ProductIndex } from './products';
 import { RoomIndex } from './rooms';
-import { useTokenContext } from './store';
+import { useSeasonsContext, useTokenContext } from './store';
 import { TeacherIndex } from './teachers';
 
 const App: React.FC = () => {
-  const [, setToken] = useTokenContext();
+  const [token, setToken] = useTokenContext();
+  const [, setSeasons] = useSeasonsContext();
 
   // Retrieve token from session storage.
   useEffect(() => {
-    const token = JSON.parse(sessionStorage.getItem('token') || '{}');
-    setToken(token);
+    const storedToken = JSON.parse(sessionStorage.getItem('token') || '{}');
+    setToken(storedToken);
   }, [setToken]);
+
+  // Fetch seasons from server.
+  useEffect(() => {
+    const fetchSeasons = async (accessToken: string) => {
+      try {
+        const res = await SeasonAPI.fetchAll(accessToken);
+        setSeasons(res.data);
+      } catch (e) {
+        console.error('Fetching of seasons failed:', e.message);
+
+        if (e.response && e.response.status === 401) {
+          sessionStorage.removeItem('token');
+          setToken({});
+        }
+      }
+    };
+
+    if (!token || !token.access_token) {
+      return;
+    }
+
+    fetchSeasons(token.access_token);
+  }, [token, setToken, setSeasons]);
 
   return (
     <Router>
