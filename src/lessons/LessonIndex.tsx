@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
 import { DataTable, HeadCell, Layout } from '../common';
-import { useTokenContext } from '../store';
+import { useActiveSeasonContext, useTokenContext } from '../store';
 import LessonAPI from './LessonAPI';
 
 const headCells: HeadCell[] = [{
@@ -12,13 +12,18 @@ const headCells: HeadCell[] = [{
 
 const LessonIndex: React.FC = () => {
   const [token, setToken] = useTokenContext();
+  const [activeSeason] = useActiveSeasonContext();
   const [lessons, setLessons] = useState<any[]>([]);
 
   // Fetch lessons from server.
   useEffect(() => {
     const fetchLessons = async (accessToken: string) => {
+      if (!activeSeason) {
+        return;
+      }
+
       try {
-        const res = await LessonAPI.fetchAll(accessToken);
+        const res = await LessonAPI.fetchAll(activeSeason, accessToken);
         const data = res.data.map((lesson: any) => ({
           ...lesson,
           url: `/lessons/${lesson.id}`,
@@ -39,7 +44,7 @@ const LessonIndex: React.FC = () => {
     }
 
     fetchLessons(token.access_token);
-  }, [token, setToken]);
+  }, [token, activeSeason, setToken]);
 
   return (
     <Layout title="Cours" actions={['Ajouter']}>
