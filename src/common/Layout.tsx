@@ -1,16 +1,19 @@
-import React, { MouseEvent, useState } from 'react';
+import React, { ChangeEvent, MouseEvent, useState } from 'react';
 import { Link as RouterLink } from 'react-router-dom';
 import {
   AppBar,
   Divider,
   Drawer,
+  FormControl,
   IconButton,
+  InputLabel,
   Link,
   List,
   ListItem,
   ListItemText,
   Menu,
   MenuItem,
+  Select,
   Toolbar,
   Typography,
 } from '@material-ui/core';
@@ -18,7 +21,8 @@ import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import { AccountCircle } from '@material-ui/icons';
 
 import { AuthAPI } from '../auth';
-import { useTokenContext } from '../store';
+import { useActiveSeasonContext, useSeasonsContext, useTokenContext } from '../store';
+import Loader from './Loader';
 
 const menuEntries = [
   { label: 'Accueil', url: '/' },
@@ -50,6 +54,10 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   drawerPaper: {
     width: drawerWidth,
   },
+  formControl: {
+    margin: theme.spacing(1),
+    minWidth: 120,
+  },
   content: {
     flexGrow: 1,
     padding: theme.spacing(3),
@@ -65,6 +73,8 @@ interface Props {
 const Layout: React.FC<Props> = ({ title, actions, children }) => {
   const classes = useStyles();
   const [token, setToken] = useTokenContext();
+  const [seasons] = useSeasonsContext();
+  const [activeSeason, setActiveSeason] = useActiveSeasonContext();
   const [menuAnchorEl, setMenuAnchorEl] = useState<HTMLElement | null>(null);
   const isMenuOpen = Boolean(menuAnchorEl);
 
@@ -93,6 +103,14 @@ const Layout: React.FC<Props> = ({ title, actions, children }) => {
 
     logout(token.access_token);
   };
+
+  const handleSeasonChange = (event: ChangeEvent<{ value: unknown }>) => {
+    setActiveSeason(event.target.value as number);
+  };
+
+  if (!activeSeason) {
+    return <Loader />;
+  }
 
   return (
     <div className={classes.root}>
@@ -140,6 +158,22 @@ const Layout: React.FC<Props> = ({ title, actions, children }) => {
         variant="permanent"
       >
         <div className={classes.toolbar} />
+        <List>
+          <FormControl className={classes.formControl}>
+            <InputLabel>Saison</InputLabel>
+            <Select
+              value={activeSeason}
+              onChange={handleSeasonChange}
+            >
+              {seasons && seasons.map((season) => (
+                <MenuItem key={season.id} value={season.id}>
+                  {season.label}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </List>
+        <Divider />
         {actions && (
           <>
             <List>

@@ -10,12 +10,13 @@ import { OrderIndex } from './orders';
 import { PreRegistrationIndex } from './preRegistrations';
 import { ProductIndex } from './products';
 import { RoomIndex } from './rooms';
-import { useSeasonsContext, useTokenContext } from './store';
+import { useActiveSeasonContext, useSeasonsContext, useTokenContext } from './store';
 import { TeacherIndex } from './teachers';
 
 const App: React.FC = () => {
   const [token, setToken] = useTokenContext();
   const [, setSeasons] = useSeasonsContext();
+  const [, setActiveSeason] = useActiveSeasonContext();
 
   // Retrieve token from session storage.
   useEffect(() => {
@@ -23,12 +24,17 @@ const App: React.FC = () => {
     setToken(storedToken);
   }, [setToken]);
 
-  // Fetch seasons from server.
+  // Fetch seasons from server and set initial value for active season.
   useEffect(() => {
     const fetchSeasons = async (accessToken: string) => {
       try {
         const res = await SeasonAPI.fetchAll(accessToken);
         setSeasons(res.data);
+
+        const lastSeason = res.data.reduce((last: number, current: any) => (
+          current.id > last ? current.id : last
+        ), -1);
+        setActiveSeason(lastSeason);
       } catch (e) {
         console.error('Fetching of seasons failed:', e.message);
 
@@ -44,7 +50,7 @@ const App: React.FC = () => {
     }
 
     fetchSeasons(token.access_token);
-  }, [token, setToken, setSeasons]);
+  }, [token, setToken, setSeasons, setActiveSeason]);
 
   return (
     <Router>
