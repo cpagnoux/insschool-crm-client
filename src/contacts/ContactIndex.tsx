@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
-import { DataTable, HeadCell, Layout } from '../common';
+import {
+  DataTable,
+  HeadCell,
+  Layout,
+  handleAxiosError,
+} from '../common';
 import { useTokenContext } from '../store';
 import ContactAPI from './ContactAPI';
 
@@ -29,12 +34,7 @@ const ContactIndex: React.FC = () => {
         }));
         setContacts(data);
       } catch (e) {
-        console.error('Fetching of contacts failed:', e.message);
-
-        if (e.response && e.response.status === 401) {
-          sessionStorage.removeItem('token');
-          setToken({});
-        }
+        handleAxiosError(e, 'Fetching of contacts failed:', setToken);
       }
     };
 

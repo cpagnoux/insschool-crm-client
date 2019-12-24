@@ -1,6 +1,11 @@
 import React, { useEffect, useState } from 'react';
 
-import { DataTable, HeadCell, Layout } from '../common';
+import {
+  DataTable,
+  HeadCell,
+  Layout,
+  handleAxiosError,
+} from '../common';
 import { useTokenContext } from '../store';
 import RoomAPI from './RoomAPI';
 
@@ -25,12 +30,7 @@ const RoomIndex: React.FC = () => {
         }));
         setRooms(data);
       } catch (e) {
-        console.error('Fetching of rooms failed:', e.message);
-
-        if (e.response && e.response.status === 401) {
-          sessionStorage.removeItem('token');
-          setToken({});
-        }
+        handleAxiosError(e, 'Fetching of rooms failed:', setToken);
       }
     };
 

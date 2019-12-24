@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 
 import { Login, PrivateRoute } from './auth';
-import { SeasonAPI } from './common';
+import { SeasonAPI, handleAxiosError } from './common';
 import { ContactIndex } from './contacts';
 import { LessonIndex } from './lessons';
 import { Home } from './misc';
@@ -36,12 +36,7 @@ const App: React.FC = () => {
         ), -1);
         setActiveSeason(lastSeason);
       } catch (e) {
-        console.error('Fetching of seasons failed:', e.message);
-
-        if (e.response && e.response.status === 401) {
-          sessionStorage.removeItem('token');
-          setToken({});
-        }
+        handleAxiosError(e, 'Fetching of seasons failed:', setToken);
       }
     };
 
