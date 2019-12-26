@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 class LessonAPI {
-  public static fetchAll(season: number, token: string) {
+  public static fetchBySeason(season: number, token: string) {
     return axios.get(`/lessons?seasonId=${season}`, {
       baseURL: process.env.REACT_APP_SERVER_URL,
       headers: {

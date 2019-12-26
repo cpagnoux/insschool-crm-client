@@ -28,7 +28,7 @@ const LessonIndex: React.FC = () => {
       }
 
       try {
-        const res = await LessonAPI.fetchAll(activeSeason, accessToken);
+        const res = await LessonAPI.fetchBySeason(activeSeason, accessToken);
         const data = res.data.map((lesson: any) => ({
           ...lesson,
           url: `/lessons/${lesson.id}`,
