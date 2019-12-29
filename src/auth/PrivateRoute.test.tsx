@@ -20,7 +20,7 @@ jest.mock('react-router-dom', () => {
   };
 });
 
-jest.mock('./Loader', () => jest.fn(() => <div>Loader</div>));
+jest.mock('../common/Loader', () => jest.fn(() => <div>Loader</div>));
 jest.mock('./useAuthenticationStatus', () => jest.fn());
 
 let container: Element | null = null;

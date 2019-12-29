@@ -6,6 +6,8 @@ import App from './App';
 
 jest.mock('./store', () => ({
   useTokenContext: () => [{}, () => undefined],
+  useSeasonsContext: () => [{}, () => undefined],
+  useActiveSeasonContext: () => [{}, () => undefined],
 }));
 
 let container: Element | null = null;

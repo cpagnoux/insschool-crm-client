@@ -14,7 +14,7 @@ jest.mock('react-router-dom', () => {
 });
 
 jest.mock('../common/Loader', () => jest.fn(() => <div>Loader</div>));
-jest.mock('../common/useAuthenticationStatus', () => jest.fn());
+jest.mock('./useAuthenticationStatus', () => jest.fn());
 
 jest.mock('../store', () => ({
   useTokenContext: () => [{}, () => undefined],
@@ -42,7 +42,7 @@ it('renders a loader if store has not been initialized yet', () => {
 });
 
 it('redirects if user is authenticated', () => {
-  jest.requireMock('../common/useAuthenticationStatus')
+  jest.requireMock('./useAuthenticationStatus')
     .mockImplementationOnce(() => true);
 
   act(() => {
@@ -53,7 +53,7 @@ it('redirects if user is authenticated', () => {
 });
 
 it('renders login page if user is not authenticated', () => {
-  jest.requireMock('../common/useAuthenticationStatus')
+  jest.requireMock('./useAuthenticationStatus')
     .mockImplementationOnce(() => false);
 
   act(() => {
