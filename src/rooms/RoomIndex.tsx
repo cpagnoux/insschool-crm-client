@@ -4,10 +4,10 @@ import {
   DataTable,
   HeadCell,
   Layout,
+  ResourceAPI,
   handleAxiosError,
 } from '../common';
 import { useTokenContext } from '../store';
-import RoomAPI from './RoomAPI';
 
 const headCells: HeadCell[] = [{
   id: 'name',
@@ -23,7 +23,7 @@ const RoomIndex: React.FC = () => {
   useEffect(() => {
     const fetchRooms = async (accessToken: string) => {
       try {
-        const res = await RoomAPI.fetchAll(accessToken);
+        const res = await ResourceAPI.fetchAll('rooms', accessToken);
         const data = res.data.map((room: any) => ({
           ...room,
           url: `/rooms/${room.id}`,

@@ -10,12 +10,12 @@ import {
   HeadCell,
   Layout,
   Loader,
+  ResourceAPI,
   TimeHelper,
   handleAxiosError,
 } from '../common';
 import { DayOfWeek } from '../constants';
 import { useTokenContext } from '../store';
-import LessonAPI from './LessonAPI';
 
 const headCells: HeadCell[] = [{
   id: 'last_name',
@@ -70,7 +70,7 @@ const LessonPage: React.FC<RouteComponentProps> = ({ match }) => {
   useEffect(() => {
     const fetchLesson = async (id: number, accessToken: string) => {
       try {
-        const res = await LessonAPI.fetch(id, accessToken);
+        const res = await ResourceAPI.fetch('lessons', id, accessToken);
         setLesson(res.data);
       } catch (e) {
         handleAxiosError(e, 'Fetching of lesson failed:', setToken);

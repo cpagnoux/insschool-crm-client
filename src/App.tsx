@@ -2,7 +2,7 @@ import React, { useEffect } from 'react';
 import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 
 import { Login, PrivateRoute } from './auth';
-import { SeasonAPI, handleAxiosError } from './common';
+import { ResourceAPI, handleAxiosError } from './common';
 import { ContactIndex } from './contacts';
 import { LessonIndex, LessonPage } from './lessons';
 import { Home } from './misc';
@@ -28,7 +28,7 @@ const App: React.FC = () => {
   useEffect(() => {
     const fetchSeasons = async (accessToken: string) => {
       try {
-        const res = await SeasonAPI.fetchAll(accessToken);
+        const res = await ResourceAPI.fetchAll('seasons', accessToken);
         setSeasons(res.data);
 
         const lastSeason = res.data.reduce((last: number, current: any) => (

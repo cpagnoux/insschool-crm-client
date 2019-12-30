@@ -7,10 +7,10 @@ import {
   DataItem,
   Layout,
   Loader,
+  ResourceAPI,
   handleAxiosError,
 } from '../common';
 import { useTokenContext } from '../store';
-import TeacherAPI from './TeacherAPI';
 
 const getFields = (teacher: any): DataField[] => [{
   label: 'Nom :',
@@ -52,7 +52,7 @@ const TeacherPage: React.FC<RouteComponentProps> = ({ match }) => {
   useEffect(() => {
     const fetchTeacher = async (id: number, accessToken: string) => {
       try {
-        const res = await TeacherAPI.fetch(id, accessToken);
+        const res = await ResourceAPI.fetch('teachers', id, accessToken);
         setTeacher(res.data);
       } catch (e) {
         handleAxiosError(e, 'Fetching of teacher failed:', setToken);

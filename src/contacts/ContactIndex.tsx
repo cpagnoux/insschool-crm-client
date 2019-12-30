@@ -4,10 +4,10 @@ import {
   DataTable,
   HeadCell,
   Layout,
+  ResourceAPI,
   handleAxiosError,
 } from '../common';
 import { useTokenContext } from '../store';
-import ContactAPI from './ContactAPI';
 
 const headCells: HeadCell[] = [{
   id: 'last_name',
@@ -27,7 +27,7 @@ const ContactIndex: React.FC = () => {
   useEffect(() => {
     const fetchContacts = async (accessToken: string) => {
       try {
-        const res = await ContactAPI.fetchAll(accessToken);
+        const res = await ResourceAPI.fetchAll('contacts', accessToken);
         const data = res.data.map((contact: any) => ({
           ...contact,
           url: `/contacts/${contact.id}`,

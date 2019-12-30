@@ -4,10 +4,10 @@ import {
   DataTable,
   HeadCell,
   Layout,
+  ResourceAPI,
   handleAxiosError,
 } from '../common';
 import { useActiveSeasonContext, useTokenContext } from '../store';
-import LessonAPI from './LessonAPI';
 
 const headCells: HeadCell[] = [{
   id: 'title',
@@ -28,7 +28,11 @@ const LessonIndex: React.FC = () => {
       }
 
       try {
-        const res = await LessonAPI.fetchBySeason(activeSeason, accessToken);
+        const res = await ResourceAPI.fetchBySeason(
+          'lessons',
+          activeSeason,
+          accessToken,
+        );
         const data = res.data.map((lesson: any) => ({
           ...lesson,
           url: `/lessons/${lesson.id}`,

@@ -4,10 +4,10 @@ import {
   DataTable,
   HeadCell,
   Layout,
+  ResourceAPI,
   handleAxiosError,
 } from '../common';
 import { useTokenContext } from '../store';
-import TeacherAPI from './TeacherAPI';
 
 const headCells: HeadCell[] = [{
   id: 'last_name',
@@ -27,7 +27,7 @@ const TeacherIndex: React.FC = () => {
   useEffect(() => {
     const fetchTeachers = async (accessToken: string) => {
       try {
-        const res = await TeacherAPI.fetchAll(accessToken);
+        const res = await ResourceAPI.fetchAll('teachers', accessToken);
         const data = res.data.map((teacher: any) => ({
           ...teacher,
           url: `/teachers/${teacher.id}`,

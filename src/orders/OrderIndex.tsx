@@ -4,10 +4,10 @@ import {
   DataTable,
   HeadCell,
   Layout,
+  ResourceAPI,
   handleAxiosError,
 } from '../common';
 import { useTokenContext } from '../store';
-import OrderAPI from './OrderAPI';
 
 const headCells: HeadCell[] = [{
   id: 'id',
@@ -31,7 +31,7 @@ const OrderIndex: React.FC = () => {
   useEffect(() => {
     const fetchOrders = async (accessToken: string) => {
       try {
-        const res = await OrderAPI.fetchAll(accessToken);
+        const res = await ResourceAPI.fetchAll('orders', accessToken);
         const data = res.data.map((order: any) => ({
           ...order,
           url: `/orders/${order.id}`,
