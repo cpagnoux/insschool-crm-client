@@ -9,7 +9,7 @@ import { Home } from './misc';
 import { OrderIndex } from './orders';
 import { PreRegistrationIndex } from './preRegistrations';
 import { ProductIndex } from './products';
-import { RoomIndex } from './rooms';
+import { RoomIndex, RoomPage } from './rooms';
 import { useActiveSeasonContext, useSeasonsContext, useTokenContext } from './store';
 import { TeacherIndex, TeacherPage } from './teachers';
 
@@ -62,6 +62,7 @@ const App: React.FC = () => {
           component={PreRegistrationIndex}
         />
         <PrivateRoute exact path="/rooms" component={RoomIndex} />
+        <PrivateRoute path="/rooms/:id" component={RoomPage} />
         <PrivateRoute exact path="/teachers" component={TeacherIndex} />
         <PrivateRoute path="/teachers/:id" component={TeacherPage} />
         <Route path="/login" component={Login} />
