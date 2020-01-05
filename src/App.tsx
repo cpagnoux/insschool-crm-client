@@ -8,7 +8,7 @@ import { LessonIndex, LessonPage } from './lessons';
 import { Home } from './misc';
 import { OrderIndex } from './orders';
 import { PreRegistrationIndex } from './preRegistrations';
-import { ProductIndex } from './products';
+import { ProductIndex, ProductPage } from './products';
 import { RoomIndex, RoomPage } from './rooms';
 import { useActiveSeasonContext, useSeasonsContext, useTokenContext } from './store';
 import { TeacherIndex, TeacherPage } from './teachers';
@@ -52,6 +52,7 @@ const App: React.FC = () => {
       <Switch>
         <PrivateRoute exact path="/" component={Home} />
         <PrivateRoute exact path="/goodies" component={ProductIndex} />
+        <PrivateRoute path="/goodies/:id" component={ProductPage} />
         <PrivateRoute exact path="/lessons" component={LessonIndex} />
         <PrivateRoute path="/lessons/:id" component={LessonPage} />
         <PrivateRoute exact path="/members" component={ContactIndex} />
