@@ -29,8 +29,9 @@ const headCells: HeadCell[] = [{
 
 const getFields = (lesson: any): DataField[] => [{
   label: 'Professeur :',
-  value: lesson.teacher && `${lesson.teacher.first_name} ${lesson.teacher.last_name}`,
-  url: `/teachers/${lesson.teacher.id}`,
+  value: lesson.teacher
+    && `${lesson.teacher.first_name} ${lesson.teacher.last_name}`,
+  url: lesson.teacher && `/teachers/${lesson.teacher.id}`,
 }, {
   label: 'Jour :',
   value: DayOfWeek[lesson.day as keyof typeof DayOfWeek],
@@ -46,7 +47,7 @@ const getFields = (lesson: any): DataField[] => [{
 }, {
   label: 'Salle :',
   value: lesson.room && lesson.room.name,
-  url: `/rooms/${lesson.room.id}`,
+  url: lesson.room && `/rooms/${lesson.room.id}`,
 }, {
   label: 'Costume :',
   value: lesson.costume,
@@ -106,7 +107,7 @@ const LessonPage: React.FC<RouteComponentProps> = ({ match }) => {
         data={lesson.registrations.map(
           (registration: any) => ({
             ...registration.contact,
-            url: `/members/${registration.contact.id}`,
+            url: registration.contact && `/members/${registration.contact.id}`,
           }),
         )}
         headCells={headCells}
