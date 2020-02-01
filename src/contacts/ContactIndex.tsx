@@ -30,7 +30,7 @@ const ContactIndex: React.FC = () => {
         const res = await ResourceAPI.fetchAll('contacts', accessToken);
         const data = res.data.map((contact: any) => ({
           ...contact,
-          url: `/contacts/${contact.id}`,
+          url: `/members/${contact.id}`,
         }));
         setContacts(data);
       } catch (e) {
