@@ -7,10 +7,14 @@ import { ContactIndex, ContactPage } from './contacts';
 import { LessonIndex, LessonPage } from './lessons';
 import { Home } from './misc';
 import { OrderIndex, OrderPage } from './orders';
-import { PreRegistrationIndex } from './preRegistrations';
+import { PreRegistrationIndex, PreRegistrationPage } from './preRegistrations';
 import { ProductIndex, ProductPage } from './products';
 import { RoomIndex, RoomPage } from './rooms';
-import { useActiveSeasonContext, useSeasonsContext, useTokenContext } from './store';
+import {
+  useActiveSeasonContext,
+  useSeasonsContext,
+  useTokenContext,
+} from './store';
 import { TeacherIndex, TeacherPage } from './teachers';
 
 const App: React.FC = () => {
@@ -63,6 +67,10 @@ const App: React.FC = () => {
           exact
           path="/pre-registrations"
           component={PreRegistrationIndex}
+        />
+        <PrivateRoute
+          path="/pre-registrations/:id"
+          component={PreRegistrationPage}
         />
         <PrivateRoute exact path="/rooms" component={RoomIndex} />
         <PrivateRoute path="/rooms/:id" component={RoomPage} />
