@@ -12,3 +12,8 @@ export enum MediumOfKnowledge {
   POSTER_FLYER = 'Affiches, flyers',
   WORD_OF_MOUTH = 'Bouche-à-oreille',
 }
+
+export enum Plan {
+  ANNUAL = 'Annuel',
+  QUARTERLY = 'Trimestriel',
+}
