@@ -5,6 +5,7 @@ import { Paper } from '@material-ui/core';
 import {
   DataField,
   DataItem,
+  DateHelper,
   Layout,
   Loader,
   ResourceAPI,
@@ -21,7 +22,7 @@ const getFields = (preRegistration: any): DataField[] => [{
   value: preRegistration.first_name,
 }, {
   label: 'Date de naissance :',
-  value: preRegistration.birth_date,
+  value: DateHelper.toDisplayString(preRegistration.birth_date),
 }, {
   label: 'Adresse :',
   value: preRegistration.address,

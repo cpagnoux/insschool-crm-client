@@ -5,6 +5,7 @@ import { Paper } from '@material-ui/core';
 import {
   DataField,
   DataItem,
+  DateHelper,
   Layout,
   Loader,
   ResourceAPI,
@@ -20,7 +21,7 @@ const getFields = (teacher: any): DataField[] => [{
   value: teacher.first_name,
 }, {
   label: 'Date de naissance :',
-  value: teacher.birth_date,
+  value: DateHelper.toDisplayString(teacher.birth_date),
 }, {
   label: 'Adresse :',
   value: teacher.address,

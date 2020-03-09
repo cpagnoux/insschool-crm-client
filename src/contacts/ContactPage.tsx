@@ -7,6 +7,7 @@ import {
   DataField,
   DataItem,
   DataTable,
+  DateHelper,
   HeadCell,
   Layout,
   Loader,
@@ -34,7 +35,7 @@ const getFields = (contact: any): DataField[] => [{
   value: contact.first_name,
 }, {
   label: 'Date de naissance :',
-  value: contact.birth_date,
+  value: DateHelper.toDisplayString(contact.birth_date),
 }, {
   label: 'Adresse :',
   value: contact.address,
