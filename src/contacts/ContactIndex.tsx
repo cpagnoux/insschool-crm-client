@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import {
   DataTable,
   HeadCell,
   Layout,
-  ResourceAPI,
-  handleAxiosError,
+  useResourceCollection,
 } from '../common';
-import { useTokenContext } from '../store';
 
 const headCells: HeadCell[] = [{
   id: 'last_name',
@@ -20,30 +18,7 @@ const headCells: HeadCell[] = [{
 }];
 
 const ContactIndex: React.FC = () => {
-  const [token, setToken] = useTokenContext();
-  const [contacts, setContacts] = useState<any[]>([]);
-
-  // Fetch contacts from server.
-  useEffect(() => {
-    const fetchContacts = async (accessToken: string) => {
-      try {
-        const res = await ResourceAPI.fetchAll('contacts', accessToken);
-        const data = res.data.map((contact: any) => ({
-          ...contact,
-          url: `/members/${contact.id}`,
-        }));
-        setContacts(data);
-      } catch (e) {
-        handleAxiosError(e, 'Fetching of contacts failed:', setToken);
-      }
-    };
-
-    if (!token || !token.access_token) {
-      return;
-    }
-
-    fetchContacts(token.access_token);
-  }, [token, setToken]);
+  const contacts = useResourceCollection('contacts', 'members');
 
   return (
     <Layout

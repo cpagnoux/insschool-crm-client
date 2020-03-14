@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import {
   DataTable,
   HeadCell,
   Layout,
-  ResourceAPI,
-  handleAxiosError,
+  useResourceCollection,
 } from '../common';
-import { useTokenContext } from '../store';
 
 const headCells: HeadCell[] = [{
   id: 'last_name',
@@ -20,30 +18,7 @@ const headCells: HeadCell[] = [{
 }];
 
 const TeacherIndex: React.FC = () => {
-  const [token, setToken] = useTokenContext();
-  const [teachers, setTeachers] = useState<any[]>([]);
-
-  // Fetch teachers from server.
-  useEffect(() => {
-    const fetchTeachers = async (accessToken: string) => {
-      try {
-        const res = await ResourceAPI.fetchAll('teachers', accessToken);
-        const data = res.data.map((teacher: any) => ({
-          ...teacher,
-          url: `/teachers/${teacher.id}`,
-        }));
-        setTeachers(data);
-      } catch (e) {
-        handleAxiosError(e, 'Fetching of teachers failed:', setToken);
-      }
-    };
-
-    if (!token || !token.access_token) {
-      return;
-    }
-
-    fetchTeachers(token.access_token);
-  }, [token, setToken]);
+  const teachers = useResourceCollection('teachers');
 
   return (
     <Layout

@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import {
   DataTable,
   HeadCell,
   Layout,
-  ResourceAPI,
-  handleAxiosError,
+  useResourceCollection,
 } from '../common';
-import { useTokenContext } from '../store';
 
 const headCells: HeadCell[] = [{
   id: 'id',
@@ -24,30 +22,7 @@ const headCells: HeadCell[] = [{
 }];
 
 const OrderIndex: React.FC = () => {
-  const [token, setToken] = useTokenContext();
-  const [orders, setOrders] = useState<any[]>([]);
-
-  // Fetch orders from server.
-  useEffect(() => {
-    const fetchOrders = async (accessToken: string) => {
-      try {
-        const res = await ResourceAPI.fetchAll('orders', accessToken);
-        const data = res.data.map((order: any) => ({
-          ...order,
-          url: `/orders/${order.id}`,
-        }));
-        setOrders(data);
-      } catch (e) {
-        handleAxiosError(e, 'Fetching of orders failed:', setToken);
-      }
-    };
-
-    if (!token || !token.access_token) {
-      return;
-    }
-
-    fetchOrders(token.access_token);
-  }, [token, setToken]);
+  const orders = useResourceCollection('orders');
 
   return (
     <Layout title="Commandes" actions={['Ajouter']}>

@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import {
   DataTable,
   HeadCell,
   Layout,
-  ResourceAPI,
-  handleAxiosError,
+  useResourceCollection,
 } from '../common';
-import { useTokenContext } from '../store';
 
 const headCells: HeadCell[] = [{
   id: 'name',
@@ -24,30 +22,7 @@ const headCells: HeadCell[] = [{
 }];
 
 const ProductIndex: React.FC = () => {
-  const [token, setToken] = useTokenContext();
-  const [products, setProducts] = useState<any[]>([]);
-
-  // Fetch products from server.
-  useEffect(() => {
-    const fetchProducts = async (accessToken: string) => {
-      try {
-        const res = await ResourceAPI.fetchAll('products', accessToken);
-        const data = res.data.map((product: any) => ({
-          ...product,
-          url: `/goodies/${product.id}`,
-        }));
-        setProducts(data);
-      } catch (e) {
-        handleAxiosError(e, 'Fetching of products failed:', setToken);
-      }
-    };
-
-    if (!token || !token.access_token) {
-      return;
-    }
-
-    fetchProducts(token.access_token);
-  }, [token, setToken]);
+  const products = useResourceCollection('products', 'goodies');
 
   return (
     <Layout title="Goodies" actions={['Ajouter']}>

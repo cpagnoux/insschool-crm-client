@@ -1,13 +1,11 @@
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 
 import {
   DataTable,
   HeadCell,
   Layout,
-  ResourceAPI,
-  handleAxiosError,
+  useResourceCollection,
 } from '../common';
-import { useTokenContext } from '../store';
 
 const headCells: HeadCell[] = [{
   id: 'last_name',
@@ -20,33 +18,7 @@ const headCells: HeadCell[] = [{
 }];
 
 const PreRegistrationIndex: React.FC = () => {
-  const [token, setToken] = useTokenContext();
-  const [preRegistrations, setPreRegistrations] = useState<any[]>([]);
-
-  // Fetch pre-registrations from server.
-  useEffect(() => {
-    const fetchPreRegistrations = async (accessToken: string) => {
-      try {
-        const res = await ResourceAPI.fetchAll(
-          'pre-registrations',
-          accessToken,
-        );
-        const data = res.data.map((preRegistration: any) => ({
-          ...preRegistration,
-          url: `/pre-registrations/${preRegistration.id}`,
-        }));
-        setPreRegistrations(data);
-      } catch (e) {
-        handleAxiosError(e, 'Fetching of pre-registrations failed:', setToken);
-      }
-    };
-
-    if (!token || !token.access_token) {
-      return;
-    }
-
-    fetchPreRegistrations(token.access_token);
-  }, [token, setToken]);
+  const preRegistrations = useResourceCollection('pre-registrations');
 
   return (
     <Layout title="Pré-inscriptions">
