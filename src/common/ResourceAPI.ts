@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-type Resource =
+export type Resource =
   | 'contacts'
   | 'lessons'
   | 'orders'
