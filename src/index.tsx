@@ -1,6 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { CssBaseline } from '@material-ui/core';
+import { MuiPickersUtilsProvider } from '@material-ui/pickers';
+import DateFnsUtils from '@date-io/date-fns';
 
 import App from './App';
 import * as serviceWorker from './serviceWorker';
@@ -10,8 +12,10 @@ import './index.css';
 
 ReactDOM.render(
   <Provider>
-    <CssBaseline />
-    <App />
+    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+      <CssBaseline />
+      <App />
+    </MuiPickersUtilsProvider>
   </Provider>,
   document.getElementById('root'),
 );
