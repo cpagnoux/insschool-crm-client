@@ -36,6 +36,14 @@ class ResourceAPI {
     );
   }
 
+  public static post(resource: Resource, body: any, token: string) {
+    return axios.post(
+      `/${resource}`,
+      body,
+      this.getAxiosConfig(token),
+    );
+  }
+
   private static getAxiosConfig(token: string) {
     return {
       baseURL: process.env.REACT_APP_SERVER_URL,
