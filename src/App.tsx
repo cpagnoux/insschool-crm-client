@@ -15,7 +15,7 @@ import {
   useSeasonsContext,
   useTokenContext,
 } from './store';
-import { TeacherIndex, TeacherPage } from './teachers';
+import { TeacherCreationPage, TeacherIndex, TeacherPage } from './teachers';
 
 const App: React.FC = () => {
   const [token, setToken] = useTokenContext();
@@ -76,6 +76,7 @@ const App: React.FC = () => {
         <PrivateRoute exact path="/rooms" component={RoomIndex} />
         <PrivateRoute path="/rooms/:id" component={RoomPage} />
         <PrivateRoute exact path="/teachers" component={TeacherIndex} />
+        <PrivateRoute path="/teachers/new" component={TeacherCreationPage} />
         <PrivateRoute path="/teachers/:id" component={TeacherPage} />
         <Route path="/login" component={Login} />
       </Switch>
