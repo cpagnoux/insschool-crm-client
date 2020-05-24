@@ -21,7 +21,11 @@ import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 import { AccountCircle } from '@material-ui/icons';
 
 import { AuthAPI } from '../auth';
-import { useActiveSeasonContext, useSeasonsContext, useTokenContext } from '../store';
+import {
+  useActiveSeasonContext,
+  useSeasonsContext,
+  useTokenContext,
+} from '../store';
 import Loader from './Loader';
 
 const menuEntries = [
