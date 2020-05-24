@@ -8,7 +8,7 @@ import { LessonCreationPage, LessonIndex, LessonPage } from './lessons';
 import { Home } from './misc';
 import { OrderIndex, OrderPage } from './orders';
 import { PreRegistrationIndex, PreRegistrationPage } from './preRegistrations';
-import { ProductIndex, ProductPage } from './products';
+import { ProductCreationPage, ProductIndex, ProductPage } from './products';
 import { RoomCreationPage, RoomIndex, RoomPage } from './rooms';
 import {
   useActiveSeasonContext,
@@ -56,6 +56,7 @@ const App: React.FC = () => {
       <Switch>
         <PrivateRoute exact path="/" component={Home} />
         <PrivateRoute exact path="/goodies" component={ProductIndex} />
+        <PrivateRoute path="/goodies/new" component={ProductCreationPage} />
         <PrivateRoute path="/goodies/:id" component={ProductPage} />
         <PrivateRoute exact path="/lessons" component={LessonIndex} />
         <PrivateRoute path="/lessons/new" component={LessonCreationPage} />
