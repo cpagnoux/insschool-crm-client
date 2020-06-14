@@ -6,7 +6,7 @@ import { ResourceAPI, handleAxiosError } from './common';
 import { ContactIndex, ContactPage } from './contacts';
 import { LessonCreationPage, LessonIndex, LessonPage } from './lessons';
 import { Home } from './misc';
-import { OrderIndex, OrderPage } from './orders';
+import { OrderCreationPage, OrderIndex, OrderPage } from './orders';
 import { PreRegistrationIndex, PreRegistrationPage } from './preRegistrations';
 import { ProductCreationPage, ProductIndex, ProductPage } from './products';
 import { RoomCreationPage, RoomIndex, RoomPage } from './rooms';
@@ -64,6 +64,7 @@ const App: React.FC = () => {
         <PrivateRoute exact path="/members" component={ContactIndex} />
         <PrivateRoute path="/members/:id" component={ContactPage} />
         <PrivateRoute exact path="/orders" component={OrderIndex} />
+        <PrivateRoute path="/orders/new" component={OrderCreationPage} />
         <PrivateRoute path="/orders/:id" component={OrderPage} />
         <PrivateRoute
           exact
