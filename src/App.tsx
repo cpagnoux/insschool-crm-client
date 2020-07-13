@@ -3,7 +3,7 @@ import { Route, BrowserRouter as Router, Switch } from 'react-router-dom';
 
 import { Login, PrivateRoute } from './auth';
 import { ResourceAPI, handleAxiosError } from './common';
-import { ContactIndex, ContactPage } from './contacts';
+import { ContactCreationPage, ContactIndex, ContactPage } from './contacts';
 import { LessonCreationPage, LessonIndex, LessonPage } from './lessons';
 import { Home } from './misc';
 import { OrderCreationPage, OrderIndex, OrderPage } from './orders';
@@ -62,6 +62,7 @@ const App: React.FC = () => {
         <PrivateRoute path="/lessons/new" component={LessonCreationPage} />
         <PrivateRoute path="/lessons/:id" component={LessonPage} />
         <PrivateRoute exact path="/members" component={ContactIndex} />
+        <PrivateRoute path="/members/new" component={ContactCreationPage} />
         <PrivateRoute path="/members/:id" component={ContactPage} />
         <PrivateRoute exact path="/orders" component={OrderIndex} />
         <PrivateRoute path="/orders/new" component={OrderCreationPage} />
