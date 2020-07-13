@@ -3,6 +3,7 @@ import { FormikErrors, FormikHelpers } from 'formik';
 import { Grid } from '@material-ui/core';
 
 import { Form, Input, SubmitButton } from '../common/forms';
+import { formErrors } from '../constants';
 
 export interface Values {
   name: string;
@@ -30,7 +31,7 @@ const RoomForm: React.FC<Props> = ({ initialValues, onSubmit }) => {
     const errors: FormikErrors<Values> = {};
 
     if (!values.name) {
-      errors.name = 'Le nom est requis';
+      errors.name = formErrors.fieldRequired;
     }
 
     return errors;

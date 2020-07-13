@@ -17,3 +17,7 @@ export enum Plan {
   ANNUAL = 'Annuel',
   QUARTERLY = 'Trimestriel',
 }
+
+export const formErrors = {
+  fieldRequired: 'Le champ est requis',
+};

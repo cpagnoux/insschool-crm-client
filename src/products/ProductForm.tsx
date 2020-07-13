@@ -8,6 +8,7 @@ import {
   SubmitButton,
   Textarea,
 } from '../common/forms';
+import { formErrors } from '../constants';
 
 export interface Values {
   name: string;
@@ -33,7 +34,7 @@ const ProductForm: React.FC<Props> = ({ initialValues, onSubmit }) => {
     const errors: FormikErrors<Values> = {};
 
     if (!values.name) {
-      errors.name = 'La désignation est requise';
+      errors.name = formErrors.fieldRequired;
     }
 
     return errors;

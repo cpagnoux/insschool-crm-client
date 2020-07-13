@@ -11,7 +11,7 @@ import {
   Textarea,
   TimePicker,
 } from '../common/forms';
-import { DayOfWeek } from '../constants';
+import { DayOfWeek, formErrors } from '../constants';
 
 export interface Values {
   title: string;
@@ -46,7 +46,7 @@ const LessonForm: React.FC<Props> = ({ initialValues, onSubmit }) => {
     const errors: FormikErrors<Values> = {};
 
     if (!values.title) {
-      errors.title = 'L\'intitulé est requis';
+      errors.title = formErrors.fieldRequired;
     }
 
     return errors;

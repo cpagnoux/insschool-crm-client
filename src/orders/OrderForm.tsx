@@ -3,6 +3,7 @@ import { FormikErrors, FormikHelpers } from 'formik';
 
 import { useResourceCollection } from '../common';
 import { Form, Select, SubmitButton } from '../common/forms';
+import { formErrors } from '../constants';
 
 export interface Values {
   contact: string;
@@ -24,7 +25,7 @@ const OrderForm: React.FC<Props> = ({ initialValues, onSubmit }) => {
     const errors: FormikErrors<Values> = {};
 
     if (!values.contact) {
-      errors.contact = 'L\'adhérent est requis';
+      errors.contact = formErrors.fieldRequired;
     }
 
     return errors;

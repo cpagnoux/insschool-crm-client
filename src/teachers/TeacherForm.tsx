@@ -8,6 +8,7 @@ import {
   Input,
   SubmitButton,
 } from '../common/forms';
+import { formErrors } from '../constants';
 
 export interface Values {
   last_name: string;
@@ -44,11 +45,11 @@ const TeacherForm: React.FC<Props> = ({ initialValues, onSubmit }) => {
     const errors: FormikErrors<Values> = {};
 
     if (!values.last_name) {
-      errors.last_name = 'Le nom est requis';
+      errors.last_name = formErrors.fieldRequired;
     }
 
     if (!values.first_name) {
-      errors.first_name = 'Le prénom est requis';
+      errors.first_name = formErrors.fieldRequired;
     }
 
     return errors;
