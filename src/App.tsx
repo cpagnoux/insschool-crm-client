@@ -7,7 +7,11 @@ import { ContactCreationPage, ContactIndex, ContactPage } from './contacts';
 import { LessonCreationPage, LessonIndex, LessonPage } from './lessons';
 import { Home } from './misc';
 import { OrderCreationPage, OrderIndex, OrderPage } from './orders';
-import { PreRegistrationIndex, PreRegistrationPage } from './preRegistrations';
+import {
+  PreRegistrationCreationPage,
+  PreRegistrationIndex,
+  PreRegistrationPage,
+} from './preRegistrations';
 import { ProductCreationPage, ProductIndex, ProductPage } from './products';
 import { RoomCreationPage, RoomIndex, RoomPage } from './rooms';
 import {
@@ -83,6 +87,10 @@ const App: React.FC = () => {
         <PrivateRoute path="/teachers/new" component={TeacherCreationPage} />
         <PrivateRoute path="/teachers/:id" component={TeacherPage} />
         <Route path="/login" component={Login} />
+        <Route
+          path="/pre-registration"
+          component={PreRegistrationCreationPage}
+        />
       </Switch>
     </Router>
   );
