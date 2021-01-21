@@ -1,7 +1,5 @@
 import React from 'react';
-import { Field } from 'formik';
-import { MenuItem } from '@material-ui/core';
-import { TextField } from 'formik-material-ui';
+import { MenuItem, TextField } from '@material-ui/core';
 
 interface Option {
   label: string;
@@ -12,6 +10,8 @@ interface Props {
   name: string;
   label: string;
   options: Option[];
+  defaultValue?: string;
+  inputRef?: any;
   autoFocus?: boolean;
 }
 
@@ -19,12 +19,15 @@ const Select: React.FC<Props> = ({
   name,
   label,
   options,
+  defaultValue,
+  inputRef,
   autoFocus = false,
 }) => (
-  <Field
-    component={TextField}
+  <TextField
     name={name}
     label={label}
+    defaultValue={defaultValue}
+    inputRef={inputRef}
     select
     fullWidth
     autoFocus={autoFocus}
@@ -35,7 +38,7 @@ const Select: React.FC<Props> = ({
         {option.label}
       </MenuItem>
     ))}
-  </Field>
+  </TextField>
 );
 
 export default Select;

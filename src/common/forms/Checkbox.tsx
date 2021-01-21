@@ -1,19 +1,24 @@
 import React from 'react';
-import { Field } from 'formik';
-import { CheckboxWithLabel } from 'formik-material-ui';
+import { Checkbox as BaseCheckbox, FormControlLabel } from '@material-ui/core';
 
 interface Props {
   name: string;
   label: string;
-  autoFocus?: boolean;
+  defaultValue?: boolean;
+  inputRef?: any;
 }
 
-const Checkbox: React.FC<Props> = ({ name, label, autoFocus = false }) => (
-  <Field
-    component={CheckboxWithLabel}
-    name={name}
-    Label={{ label }}
-    autoFocus={autoFocus}
+const Checkbox: React.FC<Props> = ({
+  name,
+  label,
+  defaultValue,
+  inputRef,
+}) => (
+  <FormControlLabel
+    control={
+      <BaseCheckbox name={name} checked={defaultValue} inputRef={inputRef} />
+    }
+    label={label}
   />
 );
 

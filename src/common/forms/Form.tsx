@@ -1,10 +1,4 @@
-import React, { ReactNode } from 'react';
-import {
-  Formik,
-  FormikConfig,
-  Form as FormikForm,
-  FormikProps,
-} from 'formik';
+import React from 'react';
 import { Paper } from '@material-ui/core';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 
@@ -15,15 +9,11 @@ const useStyles = makeStyles((theme: Theme) => createStyles({
   },
 }));
 
-type Props = Pick<FormikConfig<any>,
-| 'initialValues'
-| 'validate'
-| 'onSubmit'
-| 'children'>
+interface Props {
+  onSubmit: (...args: any[]) => any;
+}
 
 const Form: React.FC<Props> = ({
-  initialValues,
-  validate,
   onSubmit,
   children,
 }) => {
@@ -31,19 +21,9 @@ const Form: React.FC<Props> = ({
 
   return (
     <Paper className={classes.root}>
-      <Formik
-        initialValues={initialValues}
-        validate={validate}
-        onSubmit={onSubmit}
-      >
-        {(props) => (
-          <FormikForm translate="">
-            {typeof children === 'function'
-              ? (children as (props: FormikProps<any>) => ReactNode)(props)
-              : children}
-          </FormikForm>
-        )}
-      </Formik>
+      <form onSubmit={onSubmit}>
+        {children}
+      </form>
     </Paper>
   );
 };
