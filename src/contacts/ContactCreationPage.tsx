@@ -1,24 +1,18 @@
 import React from 'react';
-import { FormikHelpers } from 'formik';
 
 import { Layout, ResourceAPI } from '../common';
 import { useTokenContext } from '../store';
-import ContactForm, { Values } from './ContactForm';
+import ContactForm, { FormData } from './ContactForm';
 
 const ContactCreationPage: React.FC = () => {
   const [token] = useTokenContext();
 
-  const handleSubmit = async (
-    values: Values,
-    actions: FormikHelpers<Values>,
-  ) => {
+  const handleSubmit = async (data: FormData) => {
     if (!token || !token.access_token) {
-      actions.setSubmitting(false);
       return;
     }
 
-    await ResourceAPI.post('contacts', values, token.access_token);
-    actions.setSubmitting(false);
+    await ResourceAPI.post('contacts', data, token.access_token);
   };
 
   return (

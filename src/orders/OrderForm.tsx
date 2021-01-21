@@ -1,56 +1,42 @@
 import React from 'react';
-import { FormikErrors, FormikHelpers } from 'formik';
+import { useForm } from 'react-hook-form';
 
 import { useResourceCollection } from '../common';
 import { Form, Select, SubmitButton } from '../common/forms';
 import { formErrors } from '../constants';
 
-export interface Values {
+export interface FormData {
   contact: string;
 }
 
 interface Props {
-  initialValues?: Values;
-  onSubmit: (values: Values, actions: FormikHelpers<Values>) => void;
+  initialValues?: FormData;
+  onSubmit: (data: FormData) => void;
 }
 
 const OrderForm: React.FC<Props> = ({ initialValues, onSubmit }) => {
+  const { register, handleSubmit, errors } = useForm<FormData>();
   const contacts = useResourceCollection('contacts');
 
-  const defaultInitialValues: Values = {
+  const defaultValues: FormData = initialValues || {
     contact: '',
   };
 
-  const validate = (values: Values) => {
-    const errors: FormikErrors<Values> = {};
-
-    if (!values.contact) {
-      errors.contact = formErrors.fieldRequired;
-    }
-
-    return errors;
-  };
-
   return (
-    <Form
-      initialValues={initialValues || defaultInitialValues}
-      validate={validate}
-      onSubmit={onSubmit}
-    >
-      {({ isSubmitting }) => (
-        <>
-          <Select
-            name="contact"
-            label="Adhérent"
-            options={contacts.map((contact) => ({
-              label: `${contact.first_name} ${contact.last_name}`,
-              value: contact.id,
-            }))}
-            autoFocus
-          />
-          <SubmitButton disabled={isSubmitting} />
-        </>
-      )}
+    <Form onSubmit={handleSubmit(onSubmit)}>
+      <Select
+        name="contact"
+        label="Adhérent"
+        options={contacts.map((contact) => ({
+          label: `${contact.first_name} ${contact.last_name}`,
+          value: contact.id,
+        }))}
+        defaultValue={defaultValues.contact}
+        inputRef={register({ required: true })}
+        autoFocus
+      />
+      {errors.contact && formErrors.fieldRequired}
+      <SubmitButton />
     </Form>
   );
 };

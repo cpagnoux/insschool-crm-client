@@ -1,24 +1,18 @@
 import React from 'react';
-import { FormikHelpers } from 'formik';
 
 import { Layout, ResourceAPI } from '../common';
 import { useTokenContext } from '../store';
-import RoomForm, { Values } from './RoomForm';
+import RoomForm, { FormData } from './RoomForm';
 
 const RoomCreationPage: React.FC = () => {
   const [token] = useTokenContext();
 
-  const handleSubmit = async (
-    values: Values,
-    actions: FormikHelpers<Values>,
-  ) => {
+  const handleSubmit = async (data: FormData) => {
     if (!token || !token.access_token) {
-      actions.setSubmitting(false);
       return;
     }
 
-    await ResourceAPI.post('rooms', values, token.access_token);
-    actions.setSubmitting(false);
+    await ResourceAPI.post('rooms', data, token.access_token);
   };
 
   return (

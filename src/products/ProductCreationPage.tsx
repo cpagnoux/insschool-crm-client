@@ -1,24 +1,18 @@
 import React from 'react';
-import { FormikHelpers } from 'formik';
 
 import { Layout, ResourceAPI } from '../common';
 import { useTokenContext } from '../store';
-import ProductForm, { Values } from './ProductForm';
+import ProductForm, { FormData } from './ProductForm';
 
 const ProductCreationPage: React.FC = () => {
   const [token] = useTokenContext();
 
-  const handleSubmit = async (
-    values: Values,
-    actions: FormikHelpers<Values>,
-  ) => {
+  const handleSubmit = async (data: FormData) => {
     if (!token || !token.access_token) {
-      actions.setSubmitting(false);
       return;
     }
 
-    await ResourceAPI.post('products', values, token.access_token);
-    actions.setSubmitting(false);
+    await ResourceAPI.post('products', data, token.access_token);
   };
 
   return (

@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormikErrors, FormikHelpers } from 'formik';
+import { useForm } from 'react-hook-form';
 import { Grid } from '@material-ui/core';
 
 import { useResourceCollection } from '../common';
@@ -13,7 +13,7 @@ import {
 } from '../common/forms';
 import { DayOfWeek, formErrors } from '../constants';
 
-export interface Values {
+export interface FormData {
   title: string;
   teacher: string;
   day: string;
@@ -24,15 +24,16 @@ export interface Values {
 }
 
 interface Props {
-  initialValues?: Values;
-  onSubmit: (values: Values, actions: FormikHelpers<Values>) => void;
+  initialValues?: FormData;
+  onSubmit: (data: FormData) => void;
 }
 
 const LessonForm: React.FC<Props> = ({ initialValues, onSubmit }) => {
+  const { register, handleSubmit, errors } = useForm<FormData>();
   const teachers = useResourceCollection('teachers');
   const rooms = useResourceCollection('rooms');
 
-  const defaultInitialValues: Values = {
+  const defaultValues: FormData = initialValues || {
     title: '',
     teacher: '',
     day: '',
@@ -42,74 +43,71 @@ const LessonForm: React.FC<Props> = ({ initialValues, onSubmit }) => {
     costume: '',
   };
 
-  const validate = (values: Values) => {
-    const errors: FormikErrors<Values> = {};
-
-    if (!values.title) {
-      errors.title = formErrors.fieldRequired;
-    }
-
-    return errors;
-  };
-
   return (
-    <Form
-      initialValues={initialValues || defaultInitialValues}
-      validate={validate}
-      onSubmit={onSubmit}
-    >
-      {({ isSubmitting }) => (
-        <>
-          <Input
-            name="title"
-            label="Intitulé"
-            autoFocus
+    <Form onSubmit={handleSubmit(onSubmit)}>
+      <Input
+        name="title"
+        label="Intitulé"
+        defaultValue={defaultValues.title}
+        inputRef={register({ required: true })}
+        autoFocus
+      />
+      {errors.title && formErrors.fieldRequired}
+      <Select
+        name="teacher"
+        label="Professeur"
+        options={teachers.map((teacher) => ({
+          label: `${teacher.first_name} ${teacher.last_name}`,
+          value: teacher.id,
+        }))}
+        defaultValue={defaultValues.teacher}
+        inputRef={register}
+      />
+      <Select
+        name="day"
+        label="Jour"
+        options={Object.entries(DayOfWeek).map(([key, value]) => ({
+          label: value,
+          value: key,
+        }))}
+        defaultValue={defaultValues.day}
+        inputRef={register}
+      />
+      <Grid container spacing={3}>
+        <Grid item xs={6}>
+          <TimePicker
+            name="startTime"
+            label="Heure de début"
+            defaultValue={defaultValues.startTime}
+            inputRef={register}
           />
-          <Select
-            name="teacher"
-            label="Professeur"
-            options={teachers.map((teacher) => ({
-              label: `${teacher.first_name} ${teacher.last_name}`,
-              value: teacher.id,
-            }))}
+        </Grid>
+        <Grid item xs={6}>
+          <TimePicker
+            name="endTime"
+            label="Heure de fin"
+            defaultValue={defaultValues.endTime}
+            inputRef={register}
           />
-          <Select
-            name="day"
-            label="Jour"
-            options={Object.entries(DayOfWeek).map(([key, value]) => ({
-              label: value,
-              value: key,
-            }))}
-          />
-          <Grid container spacing={3}>
-            <Grid item xs={6}>
-              <TimePicker
-                name="startTime"
-                label="Heure de début"
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <TimePicker
-                name="endTime"
-                label="Heure de fin"
-              />
-            </Grid>
-          </Grid>
-          <Select
-            name="room"
-            label="Salle"
-            options={rooms.map((room) => ({
-              label: room.name,
-              value: room.id,
-            }))}
-          />
-          <Textarea
-            name="costume"
-            label="Costume"
-          />
-          <SubmitButton disabled={isSubmitting} />
-        </>
-      )}
+        </Grid>
+      </Grid>
+      <Select
+        name="room"
+        label="Salle"
+        options={rooms.map((room) => ({
+          label: room.name,
+          value: room.id,
+        }))}
+        defaultValue={defaultValues.room}
+        inputRef={register}
+      />
+      <Textarea
+        name="costume"
+        label="Costume"
+        defaultValue={defaultValues.costume}
+        inputRef={register}
+      />
+      <SubmitButton />
     </Form>
   );
 };

@@ -1,11 +1,11 @@
 import React from 'react';
-import { FormikErrors, FormikHelpers } from 'formik';
+import { useForm } from 'react-hook-form';
 import { Grid } from '@material-ui/core';
 
 import { Form, Input, SubmitButton } from '../common/forms';
 import { formErrors } from '../constants';
 
-export interface Values {
+export interface FormData {
   name: string;
   address: string;
   zip_code: string;
@@ -13,13 +13,15 @@ export interface Values {
 }
 
 interface Props {
-  initialValues?: Values;
-  onSubmit: (values: Values, actions: FormikHelpers<Values>) => void;
+  initialValues?: FormData;
+  onSubmit: (data: FormData) => void;
 }
 
 const RoomForm: React.FC<Props> = ({ initialValues, onSubmit }) => {
+  const { register, handleSubmit, errors } = useForm<FormData>();
+
   /* eslint-disable @typescript-eslint/camelcase */
-  const defaultInitialValues: Values = {
+  const defaultValues: FormData = initialValues || {
     name: '',
     address: '',
     zip_code: '',
@@ -27,50 +29,41 @@ const RoomForm: React.FC<Props> = ({ initialValues, onSubmit }) => {
   };
   /* eslint-enable @typescript-eslint/camelcase */
 
-  const validate = (values: Values) => {
-    const errors: FormikErrors<Values> = {};
-
-    if (!values.name) {
-      errors.name = formErrors.fieldRequired;
-    }
-
-    return errors;
-  };
-
   return (
-    <Form
-      initialValues={initialValues || defaultInitialValues}
-      validate={validate}
-      onSubmit={onSubmit}
-    >
-      {({ isSubmitting }) => (
-        <>
+    <Form onSubmit={handleSubmit(onSubmit)}>
+      <Input
+        name="name"
+        label="Nom"
+        defaultValue={defaultValues.name}
+        inputRef={register({ required: true })}
+        autoFocus
+      />
+      {errors.name && formErrors.fieldRequired}
+      <Input
+        name="address"
+        label="Adresse"
+        defaultValue={defaultValues.address}
+        inputRef={register}
+      />
+      <Grid container spacing={3}>
+        <Grid item xs={6}>
           <Input
-            name="name"
-            label="Nom"
-            autoFocus
+            name="zip_code"
+            label="Code postal"
+            defaultValue={defaultValues.zip_code}
+            inputRef={register}
           />
+        </Grid>
+        <Grid item xs={6}>
           <Input
-            name="address"
-            label="Adresse"
+            name="city"
+            label="Ville"
+            defaultValue={defaultValues.city}
+            inputRef={register}
           />
-          <Grid container spacing={3}>
-            <Grid item xs={6}>
-              <Input
-                name="zip_code"
-                label="Code postal"
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Input
-                name="city"
-                label="Ville"
-              />
-            </Grid>
-          </Grid>
-          <SubmitButton disabled={isSubmitting} />
-        </>
-      )}
+        </Grid>
+      </Grid>
+      <SubmitButton />
     </Form>
   );
 };

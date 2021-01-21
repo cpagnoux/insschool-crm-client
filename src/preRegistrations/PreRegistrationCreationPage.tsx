@@ -1,11 +1,10 @@
 import React from 'react';
-import { FormikHelpers } from 'formik';
 import { AppBar, Toolbar, Typography } from '@material-ui/core';
 import { Theme, createStyles, makeStyles } from '@material-ui/core/styles';
 
 import { ResourceAPI } from '../common';
 import { useTokenContext } from '../store';
-import PreRegistrationForm, { Values } from './PreRegistrationForm';
+import PreRegistrationForm, { FormData } from './PreRegistrationForm';
 
 const useStyles = makeStyles((theme: Theme) => createStyles({
   main: {
@@ -19,17 +18,12 @@ const PreRegistrationCreationPage: React.FC = () => {
   const classes = useStyles();
   const [token] = useTokenContext();
 
-  const handleSubmit = async (
-    values: Values,
-    actions: FormikHelpers<Values>,
-  ) => {
+  const handleSubmit = async (data: FormData) => {
     if (!token || !token.access_token) {
-      actions.setSubmitting(false);
       return;
     }
 
-    await ResourceAPI.post('pre-registrations', values, token.access_token);
-    actions.setSubmitting(false);
+    await ResourceAPI.post('pre-registrations', data, token.access_token);
   };
 
   return (

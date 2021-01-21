@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormikErrors, FormikHelpers } from 'formik';
+import { useForm } from 'react-hook-form';
 import { Grid, Link } from '@material-ui/core';
 
 import {
@@ -13,7 +13,7 @@ import {
 import { MediumOfKnowledge, formErrors } from '../constants';
 import PreRegistrationInfo from './PreRegistrationInfo';
 
-export interface Values {
+export interface FormData {
   last_name: string;
   first_name: string;
   birth_date: Date | null;
@@ -30,13 +30,15 @@ export interface Values {
 }
 
 interface Props {
-  initialValues?: Values;
-  onSubmit: (values: Values, actions: FormikHelpers<Values>) => void;
+  initialValues?: FormData;
+  onSubmit: (data: FormData) => void;
 }
 
 const PreRegistrationForm: React.FC<Props> = ({ initialValues, onSubmit }) => {
+  const { register, handleSubmit, errors } = useForm<FormData>();
+
   /* eslint-disable @typescript-eslint/camelcase */
-  const defaultInitialValues: Values = {
+  const defaultValues: FormData = initialValues || {
     last_name: '',
     first_name: '',
     birth_date: null,
@@ -51,135 +53,126 @@ const PreRegistrationForm: React.FC<Props> = ({ initialValues, onSubmit }) => {
     with_lessons: false,
     medium_of_knowledge: '',
   };
-
-  const validate = (values: Values) => {
-    const errors: FormikErrors<Values> = {};
-
-    if (!values.last_name) {
-      errors.last_name = formErrors.fieldRequired;
-    }
-
-    if (!values.first_name) {
-      errors.first_name = formErrors.fieldRequired;
-    }
-
-    if (!values.birth_date) {
-      errors.birth_date = formErrors.fieldRequired;
-    }
-
-    if (!values.address) {
-      errors.address = formErrors.fieldRequired;
-    }
-
-    if (!values.zip_code) {
-      errors.zip_code = formErrors.fieldRequired;
-    }
-
-    if (!values.city) {
-      errors.city = formErrors.fieldRequired;
-    }
-
-    if (!values.medium_of_knowledge) {
-      errors.medium_of_knowledge = formErrors.fieldRequired;
-    }
-
-    return errors;
-  };
   /* eslint-enable @typescript-eslint/camelcase */
 
   return (
-    <Form
-      initialValues={initialValues || defaultInitialValues}
-      validate={validate}
-      onSubmit={onSubmit}
-    >
-      {({ isSubmitting }) => (
-        <>
-          <Link href="http://www.insschool.fr/">
-            {"Retour vers le site d'INS School"}
-          </Link>
+    <Form onSubmit={handleSubmit(onSubmit)}>
+      <Link href="http://www.insschool.fr/">
+        {"Retour vers le site d'INS School"}
+      </Link>
+      <Input
+        name="last_name"
+        label="Nom"
+        defaultValue={defaultValues.last_name}
+        inputRef={register({ required: true })}
+        autoFocus
+      />
+      {errors.last_name && formErrors.fieldRequired}
+      <Input
+        name="first_name"
+        label="Prénom"
+        defaultValue={defaultValues.first_name}
+        inputRef={register({ required: true })}
+      />
+      {errors.first_name && formErrors.fieldRequired}
+      <DatePicker
+        name="birth_date"
+        label="Date de naissance"
+        defaultValue={defaultValues.birth_date}
+        inputRef={register({ required: true })}
+        disableFuture
+      />
+      {errors.birth_date && formErrors.fieldRequired}
+      <Input
+        name="address"
+        label="Adresse"
+        defaultValue={defaultValues.address}
+        inputRef={register({ required: true })}
+      />
+      {errors.address && formErrors.fieldRequired}
+      <Grid container spacing={3}>
+        <Grid item xs={6}>
           <Input
-            name="last_name"
-            label="Nom"
-            autoFocus
+            name="zip_code"
+            label="Code postal"
+            defaultValue={defaultValues.zip_code}
+            inputRef={register({ required: true })}
           />
+          {errors.zip_code && formErrors.fieldRequired}
+        </Grid>
+        <Grid item xs={6}>
           <Input
-            name="first_name"
-            label="Prénom"
+            name="city"
+            label="Ville"
+            defaultValue={defaultValues.city}
+            inputRef={register({ required: true })}
           />
-          <DatePicker
-            name="birth_date"
-            label="Date de naissance"
-            disableFuture
-          />
+          {errors.city && formErrors.fieldRequired}
+        </Grid>
+      </Grid>
+      <Grid container spacing={3}>
+        <Grid item xs={6}>
           <Input
-            name="address"
-            label="Adresse"
+            name="mobile"
+            label="Portable"
+            defaultValue={defaultValues.mobile}
+            inputRef={register}
           />
-          <Grid container spacing={3}>
-            <Grid item xs={6}>
-              <Input
-                name="zip_code"
-                label="Code postal"
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Input
-                name="city"
-                label="Ville"
-              />
-            </Grid>
-          </Grid>
-          <Grid container spacing={3}>
-            <Grid item xs={6}>
-              <Input
-                name="mobile"
-                label="Portable"
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Input
-                name="phone"
-                label="Fixe"
-              />
-            </Grid>
-          </Grid>
-          <Grid container spacing={3}>
-            <Grid item xs={6}>
-              <Input
-                name="mobile_father"
-                label="Portable père"
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Input
-                name="mobile_mother"
-                label="Portable mère"
-              />
-            </Grid>
-          </Grid>
+        </Grid>
+        <Grid item xs={6}>
           <Input
-            name="email"
-            label="Email"
+            name="phone"
+            label="Fixe"
+            defaultValue={defaultValues.phone}
+            inputRef={register}
           />
-          <Checkbox
-            name="with_lessons"
-            label="Souhaitez-vous participer à des cours ?"
+        </Grid>
+      </Grid>
+      <Grid container spacing={3}>
+        <Grid item xs={6}>
+          <Input
+            name="mobile_father"
+            label="Portable père"
+            defaultValue={defaultValues.mobile_father}
+            inputRef={register}
           />
-          <Select
-            name="medium_of_knowledge"
-            label="Comment nous avez-vous connus ?"
-            options={Object.entries(MediumOfKnowledge).map(
-              ([key, value]) => ({
-                label: value,
-                value: key,
-              }),
-            )}
+        </Grid>
+        <Grid item xs={6}>
+          <Input
+            name="mobile_mother"
+            label="Portable mère"
+            defaultValue={defaultValues.mobile_mother}
+            inputRef={register}
           />
-          <PreRegistrationInfo />
-          <SubmitButton disabled={isSubmitting} />
-        </>
-      )}
+        </Grid>
+      </Grid>
+      <Input
+        name="email"
+        label="Email"
+        defaultValue={defaultValues.email}
+        inputRef={register}
+      />
+      <Checkbox
+        name="with_lessons"
+        label="Souhaitez-vous participer à des cours ?"
+        defaultValue={defaultValues.with_lessons}
+        inputRef={register}
+      />
+      <Select
+        name="medium_of_knowledge"
+        label="Comment nous avez-vous connus ?"
+        options={Object.entries(MediumOfKnowledge).map(
+          ([key, value]) => ({
+            label: value,
+            value: key,
+          }),
+        )}
+        defaultValue={defaultValues.medium_of_knowledge}
+        inputRef={register({ required: true })}
+      />
+      {errors.medium_of_knowledge && formErrors.fieldRequired}
+      <PreRegistrationInfo />
+      <SubmitButton />
     </Form>
   );
 };

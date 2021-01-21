@@ -1,5 +1,5 @@
 import React from 'react';
-import { FormikErrors, FormikHelpers } from 'formik';
+import { useForm } from 'react-hook-form';
 import { Grid } from '@material-ui/core';
 
 import {
@@ -10,7 +10,7 @@ import {
 } from '../common/forms';
 import { formErrors } from '../constants';
 
-export interface Values {
+export interface FormData {
   name: string;
   description: string;
   price: number | null;
@@ -18,64 +18,57 @@ export interface Values {
 }
 
 interface Props {
-  initialValues?: Values;
-  onSubmit: (values: Values, actions: FormikHelpers<Values>) => void;
+  initialValues?: FormData;
+  onSubmit: (data: FormData) => void;
 }
 
 const ProductForm: React.FC<Props> = ({ initialValues, onSubmit }) => {
-  const defaultInitialValues: Values = {
+  const { register, handleSubmit, errors } = useForm<FormData>();
+
+  const defaultValues: FormData = initialValues || {
     name: '',
     description: '',
     price: null,
     stock: null,
   };
 
-  const validate = (values: Values) => {
-    const errors: FormikErrors<Values> = {};
-
-    if (!values.name) {
-      errors.name = formErrors.fieldRequired;
-    }
-
-    return errors;
-  };
-
   return (
-    <Form
-      initialValues={initialValues || defaultInitialValues}
-      validate={validate}
-      onSubmit={onSubmit}
-    >
-      {({ isSubmitting }) => (
-        <>
+    <Form onSubmit={handleSubmit(onSubmit)}>
+      <Input
+        name="name"
+        label="Désignation"
+        defaultValue={defaultValues.name}
+        inputRef={register({ required: true })}
+        autoFocus
+      />
+      {errors.name && formErrors.fieldRequired}
+      <Textarea
+        name="description"
+        label="Description"
+        defaultValue={defaultValues.description}
+        inputRef={register}
+      />
+      <Grid container spacing={3}>
+        <Grid item xs={6}>
           <Input
-            name="name"
-            label="Désignation"
-            autoFocus
+            name="price"
+            label="Prix"
+            defaultValue={defaultValues.price}
+            inputRef={register}
+            type="number"
           />
-          <Textarea
-            name="description"
-            label="Description"
+        </Grid>
+        <Grid item xs={6}>
+          <Input
+            name="stock"
+            label="Stock"
+            defaultValue={defaultValues.stock}
+            inputRef={register}
+            type="number"
           />
-          <Grid container spacing={3}>
-            <Grid item xs={6}>
-              <Input
-                name="price"
-                label="Prix"
-                type="number"
-              />
-            </Grid>
-            <Grid item xs={6}>
-              <Input
-                name="stock"
-                label="Stock"
-                type="number"
-              />
-            </Grid>
-          </Grid>
-          <SubmitButton disabled={isSubmitting} />
-        </>
-      )}
+        </Grid>
+      </Grid>
+      <SubmitButton />
     </Form>
   );
 };
